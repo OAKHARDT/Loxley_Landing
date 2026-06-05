@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>LOXLEY — Own Your World</title>
   <meta name="description" content="The local-first platform for creating, organizing and sharing rich, connected knowledge — in one .LXW file you own.">
+  <!-- Site icons (place loxley_icon.png in the repository root) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/loxley_icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/loxley_icon.png">
+  <link rel="apple-touch-icon" href="/loxley_icon.png">
+  <meta name="theme-color" content="#070708">
   <style>
     :root{
       --bg:#070708;
@@ -121,7 +126,7 @@
   <script>
     // preserve smooth behavior for any internal links while keeping single-screen layout
     document.addEventListener('click', function(e){
-      if(e.target.closest('a[href^="#"]')){
+      if(e.target.closest('a[href^="#"])){
         e.preventDefault();
       }
     });
