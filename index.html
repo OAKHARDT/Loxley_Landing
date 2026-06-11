@@ -3,713 +3,211 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LOXLEY — Build Worlds That Stay Connected</title>
-  <meta name="description" content="A local-first worldbuilding platform in development, built around portable .lxw world files. For writers, worldbuilders, game creators, and creative teams.">
+  <title>LOXLEY — One World. Many Surfaces. Always Yours.</title>
+  <meta name="description" content="LOXLEY — a local-first platform for creating, managing and publishing structured worlds. Portable .lxw world packages keep your data connected and under your control.">
   <link rel="icon" type="image/png" sizes="32x32" href="loxley_icon.png">
   <link rel="icon" type="image/png" sizes="16x16" href="loxley_icon.png">
-  <link rel="apple-touch-icon" href="loxley_icon.png">
-  <meta name="theme-color" content="#080A0F">
+  <meta name="theme-color" content="#0D0F14">
   <style>
-    :root {
-      --bg: #080A0F;
-      --card: #11151D;
-      --border: #242B38;
-      --accent: #7CCBFF;
-      --accent-alt: #A78BFA;
-      --text: #F4F7FB;
-      --text-muted: #8F9BAA;
-      --gold: #d4af37;
+    :root{
+      --bg: #0D0F14;
+      --panel: #1A1E26;
+      --gold: #D4AF37;
+      --gold-soft: #F2C76E;
+      --text: #F8F3E6;
+      --muted: rgba(248,243,230,0.65);
+      --glass: rgba(255,255,255,0.03);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;}
+    body{
+      min-height:100vh;
+      background:var(--bg);
+      color:var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
     }
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, "Segoe UI", "Inter", sans-serif;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Subtle animated background gradient */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.08;
-      background: radial-gradient(800px 600px at 50% 0%, rgba(124, 203, 255, 0.15), transparent 70%);
-      z-index: 0;
-    }
-
-    .wrapper {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    /* Header */
-    header {
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(8, 10, 15, 0.9);
-      backdrop-filter: blur(8px);
-      flex-shrink: 0;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      color: var(--text);
-      text-decoration: none;
-      font-size: 16px;
-    }
-
-    .brand img {
-      width: 22px;
-      height: 22px;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .badge {
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .header-links {
-      display: flex;
-      gap: 16px;
-    }
-
-    .header-links a {
-      font-size: 13px;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .header-links a:hover {
-      color: var(--accent);
-    }
-
-    /* Main Content */
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .hero-section {
-      padding: 40px 24px 32px;
-      text-align: center;
-      flex-shrink: 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .hero-section h1 {
-      font-size: clamp(28px, 6vw, 48px);
-      line-height: 1.1;
-      margin-bottom: 12px;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-    }
-
-    .hero-section p {
-      font-size: clamp(13px, 2vw, 15px);
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
-
-    .hero-status {
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: 600;
-      border: 1px solid transparent;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-      font-size: 13px;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: var(--bg);
-      border-color: var(--accent);
-    }
-
-    .btn-primary:hover {
-      background: #6bb8e8;
-      border-color: #6bb8e8;
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      border-color: var(--border);
-      color: var(--text);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* Swipe Container */
-    .swipe-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .swipe-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 500px;
-      height: 100%;
-      max-height: 400px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .cards-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      perspective: 1200px;
-    }
-
-    .card {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 32px 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-      transform: translateX(100px) rotateY(20deg);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
-
-    .card.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateX(0) rotateY(0);
-      box-shadow: 0 20px 60px rgba(124, 203, 255, 0.1);
-    }
-
-    .card.prev {
-      opacity: 0;
-      transform: translateX(-100px) rotateY(-20deg);
-    }
-
-    .card-header h2 {
-      font-size: clamp(20px, 4vw, 28px);
-      margin-bottom: 16px;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .card-body p {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 0;
-    }
-
-    .card-footer {
-      margin-top: 24px;
-    }
-
-    .card-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .chip {
-      display: inline-block;
-      background: rgba(124, 203, 255, 0.1);
-      border: 1px solid rgba(124, 203, 255, 0.3);
-      color: var(--accent);
-      padding: 6px 12px;
-      border-radius: 16px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .card-small {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.6;
+    .container{
+      width:1160px;
+      max-width:95vw;
+      height:86vh; /* fit on a single desktop screen */
+      display:flex;
+      flex-direction:column;
+      gap:28px;
+      padding:28px 32px;
     }
 
     /* Navigation */
-    .swipe-nav {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 24px;
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      height:64px;
     }
 
-    .nav-arrow {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 18px;
+    .brand{
+      display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);
+      font-weight:700;letter-spacing:0.12em;font-size:16px
+    }
+    .brand img{width:28px;height:28px;border-radius:6px}
+
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-size:13px;padding:6px 8px;border-radius:6px}
+    nav a:hover{color:var(--gold);background:var(--glass)}
+
+    /* Hero */
+    .hero{
+      display:flex;gap:36px;align-items:center;justify-content:space-between;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      border:1px solid rgba(255,255,255,0.03);
+      padding:28px;border-radius:14px;height: calc(46% - 18px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      background-color: var(--panel);
     }
 
-    .nav-arrow:hover:not(:disabled) {
-      border-color: var(--accent);
-      color: var(--accent);
+    .hero-left{flex:1;display:flex;flex-direction:column;gap:14px;padding-right:12px}
+    .kicker{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em}
+    h1{font-size:46px;line-height:1.02;margin-bottom:4px;font-weight:800}
+    .sub{color:var(--muted);font-size:15px;max-width:56ch;line-height:1.5}
+
+    .hero-actions{display:flex;gap:12px;margin-top:8px}
+    .btn{padding:12px 20px;border-radius:10px;font-weight:700;border:1px solid transparent;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+    .btn-primary{background:var(--gold);color:#0d0f14}
+    .btn-secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.06)}
+    .btn-secondary:hover{border-color:var(--gold-soft);color:var(--gold-soft)}
+
+    /* Visual / Infographic */
+    .visual{
+      width:520px;flex:0 0 520px;display:flex;align-items:center;justify-content:center;position:relative;padding:24px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.03)
     }
 
-    .nav-arrow:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
+    .infographic{
+      width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:8px
     }
 
-    .dots {
-      display: flex;
-      gap: 8px;
+    .node{
+      width:240px;background:var(--panel);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 8px 30px rgba(0,0,0,0.45);text-align:center
     }
+    .node .title{font-weight:700;color:var(--text);font-size:15px;margin-bottom:6px}
+    .node .meta{font-size:13px;color:var(--muted)}
 
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--border);
-      cursor: pointer;
-      transition: all 0.3s;
-    }
+    .arrow{width:2px;height:36px;background:linear-gradient(180deg,var(--gold),var(--gold-soft));margin:6px 0;border-radius:2px}
 
-    .dot.active {
-      background: var(--accent);
-      width: 24px;
-      border-radius: 4px;
-    }
+    .ecosystem-row{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:6px}
+    .small-pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:12px;color:var(--muted)}
 
-    .dot:hover {
-      background: var(--text-muted);
-    }
+    /* Principles */
+    .principles{display:flex;gap:18px;justify-content:space-between;margin-top:8px}
+    .card{flex:1;background:var(--panel);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 30px rgba(0,0,0,0.45)}
+    .card h3{font-size:16px;margin-bottom:8px}
+    .card p{color:var(--muted);font-size:14px;line-height:1.5}
 
     /* Footer */
-    footer {
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 24px;
-      border-top: 1px solid var(--border);
-      background: rgba(8, 10, 15, 0.8);
-      backdrop-filter: blur(8px);
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      flex-shrink: 0;
+    footer{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-radius:10px;background:transparent;color:var(--muted);font-size:13px}
+
+    /* Fit on single screen adjustments */
+    @media (max-width:1200px){
+      .visual{flex:0 0 460px;width:460px}
+      h1{font-size:40px}
+    }
+    @media (max-width:920px){
+      .container{height:auto;padding:20px 18px}
+      .hero{flex-direction:column;align-items:stretch;height:auto}
+      .visual{width:100%;flex:0 0 auto}
+      .principles{flex-direction:column}
+      .brand img{width:24px;height:24px}
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      header {
-        height: 56px;
-        padding: 0 16px;
-      }
-
-      .header-right {
-        gap: 12px;
-      }
-
-      .badge {
-        display: none;
-      }
-
-      .hero-section {
-        padding: 32px 16px 24px;
-      }
-
-      .hero-buttons {
-        gap: 8px;
-      }
-
-      .btn {
-        padding: 9px 16px;
-        font-size: 12px;
-      }
-
-      .swipe-container {
-        padding: 24px 16px;
-      }
-
-      .swipe-wrapper {
-        max-width: 100%;
-      }
-
-      .card {
-        padding: 24px 16px;
-      }
-
-      .nav-arrow {
-        display: none;
-      }
-
-      footer {
-        height: 48px;
-        font-size: 10px;
-      }
-    }
-
-    @media (max-height: 800px) {
-      .swipe-container {
-        padding: 16px 24px;
-      }
-
-      .swipe-wrapper {
-        max-height: 320px;
-      }
-
-      .card {
-        padding: 20px;
-      }
-
-      .card-header h2 {
-        font-size: 20px;
-        margin-bottom: 12px;
-      }
-
-      .card-body p {
-        font-size: 13px;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <!-- Header -->
+  <div class="container" role="document">
     <header>
-      <a href="#" class="brand" aria-label="LOXLEY Home">
-        <img src="loxley_icon.png" alt="" aria-hidden="true">
+      <a class="brand" href="/" aria-label="LOXLEY Home">
+        <img src="loxley_icon.png" alt="LOXLEY logo">
         <span>LOXLEY</span>
       </a>
-      <div class="header-right">
-        <span class="badge">Local-first · .lxw powered</span>
-        <div class="header-links">
-          <a href="#development">In Development</a>
-          <a href="mailto:hello@loxley.app">Contact</a>
-        </div>
-      </div>
+      <nav aria-label="Primary">
+        <a href="#docs">Docs</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="https://github.com/OAKHARDT/Loxley_Landing" target="_blank" rel="noopener">GitHub</a>
+        <a href="#discord">Discord</a>
+      </nav>
     </header>
 
-    <!-- Main -->
-    <main>
-      <!-- Hero Section -->
-      <section class="hero-section">
-        <h1>Build worlds that stay connected.</h1>
-        <p>LOXLEY is a local-first worldbuilding platform for creators building stories, games, lore, maps, characters, and connected fictional universes.</p>
-        <div class="hero-status">Currently in development · Android-first · .lxw world files</div>
-        <div class="hero-buttons">
-          <a href="#" class="btn btn-primary">Follow Development</a>
-          <a href="mailto:hello@loxley.app" class="btn btn-secondary">Contact</a>
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-left">
+        <div class="kicker">Currently in active development</div>
+        <h1 id="hero-heading">One World. Many Surfaces. Always Yours.</h1>
+        <div class="sub">LOXLEY is a local-first platform for creating, managing and publishing structured worlds. The .lxw world package keeps your data portable, connected and under your control.</div>
+        <div class="hero-actions">
+          <a href="#learn" class="btn btn-primary">Learn More</a>
+          <a href="#join" class="btn btn-secondary">Join Development</a>
         </div>
-      </section>
+      </div>
 
-      <!-- Swipe Cards -->
-      <div class="swipe-container">
-        <div class="swipe-wrapper">
-          <div class="cards-container">
-            <!-- Card 1: What is LOXLEY? -->
-            <div class="card active">
-              <div class="card-header">
-                <h2>A creative home for fictional worlds.</h2>
-              </div>
-              <div class="card-body">
-                <p>Organise characters, locations, factions, lore, timelines, maps, relationships, and visual references in one connected workspace.</p>
-              </div>
-              <div class="card-footer">
-                <p class="card-small">For writers, worldbuilders, RPG creators, comic makers, and indie game developers.</p>
-              </div>
-            </div>
-
-            <!-- Card 2: The .lxw File -->
-            <div class="card">
-              <div class="card-header">
-                <h2>One world file. Many possibilities.</h2>
-              </div>
-              <div class="card-body">
-                <p>LOXLEY is built around the .lxw file — a portable world package designed to hold the structured truth of a creative universe.</p>
-              </div>
-              <div class="card-footer">
-                <p class="card-small" style="margin-bottom: 12px;">Your world file can power:</p>
-                <div class="card-chips">
-                  <span class="chip">App</span>
-                  <span class="chip">Website</span>
-                  <span class="chip">Game</span>
-                  <span class="chip">AI</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 3: Connected Worldbuilding -->
-            <div class="card">
-              <div class="card-header">
-                <h2>Everything connected.</h2>
-              </div>
-              <div class="card-body">
-                <p>Characters can link to places, factions, relationships, events, maps, stories, and media — helping your world feel organised instead of scattered.</p>
-              </div>
-              <div class="card-footer">
-                <div class="card-chips">
-                  <span class="chip">Characters</span>
-                  <span class="chip">Locations</span>
-                  <span class="chip">Factions</span>
-                  <span class="chip">Maps</span>
-                  <span class="chip">Relationships</span>
-                  <span class="chip">Timelines</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 4: Local-First Ownership -->
-            <div class="card">
-              <div class="card-header">
-                <h2>Your world should belong to you.</h2>
-              </div>
-              <div class="card-body">
-                <p>LOXLEY is being designed local-first, so your creative work is stored around portable files rather than trapped inside a hidden cloud system.</p>
-              </div>
-              <div class="card-footer">
-                <p class="card-small">Cloud features may come later. Ownership comes first.</p>
-              </div>
-            </div>
-
-            <!-- Card 5: Reader & Publish -->
-            <div class="card">
-              <div class="card-header">
-                <h2>Browse and share your world.</h2>
-              </div>
-              <div class="card-body">
-                <p>Future .lxw reader and publishing tools will let worlds become clean read-only views, public guides, or interactive websites.</p>
-              </div>
-              <div class="card-footer">
-                <p class="card-small" style="margin-bottom: 12px;">From editor to reader to web:</p>
-                <div class="card-chips">
-                  <span class="chip">Editor</span>
-                  <span class="chip">Reader</span>
-                  <span class="chip">Website</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 6: AI & Build Targets -->
-            <div class="card">
-              <div class="card-header">
-                <h2>Built for future AI-assisted creation.</h2>
-              </div>
-              <div class="card-body">
-                <p>The long-term goal is for AI tools to safely read .lxw worlds and help create comics, games, scripts, reports, and prototypes.</p>
-              </div>
-              <div class="card-footer">
-                <p class="card-small">AI can suggest. LOXLEY keeps canon controlled.</p>
-              </div>
-            </div>
-
-            <!-- Card 7: Development Status -->
-            <div class="card">
-              <div class="card-header">
-                <h2>Currently in active development.</h2>
-              </div>
-              <div class="card-body">
-                <p>The current focus is building the .lxw foundation, safe saving, backup, restore, recovery, and a reliable Android-first release.</p>
-              </div>
-              <div class="card-footer">
-                <a href="mailto:hello@loxley.app" class="btn btn-primary" style="display: block; text-align: center; margin-top: 12px;">Follow the project</a>
-              </div>
-            </div>
+      <div class="visual" aria-hidden="false">
+        <div class="infographic" role="img" aria-label=".lxw ecosystem infographic">
+          <div class="node">
+            <div class="title">LOXLEY Editor</div>
+            <div class="meta">Create & structure your world</div>
           </div>
-        </div>
 
-        <!-- Navigation -->
-        <div style="position: absolute; bottom: -120px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 16px;">
-          <div class="swipe-nav">
-            <button class="nav-arrow" id="prevBtn" aria-label="Previous card">‹</button>
-            <div class="dots">
-              <span class="dot active" data-index="0"></span>
-              <span class="dot" data-index="1"></span>
-              <span class="dot" data-index="2"></span>
-              <span class="dot" data-index="3"></span>
-              <span class="dot" data-index="4"></span>
-              <span class="dot" data-index="5"></span>
-              <span class="dot" data-index="6"></span>
+          <div class="arrow" aria-hidden="true"></div>
+
+          <div class="node">
+            <div class="title">.lxw</div>
+            <div class="meta">A single portable world package</div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"></div>
+
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="ecosystem-row">
+              <div class="small-pill">Reader</div>
+              <div class="small-pill">Website</div>
+              <div class="small-pill">AI Workspace</div>
+              <div class="small-pill">Games</div>
+              <div class="small-pill">Future Tools</div>
             </div>
-            <button class="nav-arrow" id="nextBtn" aria-label="Next card">›</button>
+            <div class="meta" style="color:var(--muted);font-size:13px">One file, many build targets — portable by design</div>
           </div>
         </div>
       </div>
-    </main>
+    </section>
 
-    <!-- Footer -->
+    <section class="principles" aria-label="Core Principles">
+      <article class="card" aria-labelledby="p1">
+        <h3 id="p1">Local-First</h3>
+        <p>Your data lives on your devices. No required cloud. No subscriptions. No lock-in.</p>
+      </article>
+
+      <article class="card" aria-labelledby="p2">
+        <h3 id="p2">Portable</h3>
+        <p>One .lxw file — use it across Android, Desktop, Reader, Websites, and future tools.</p>
+      </article>
+
+      <article class="card" aria-labelledby="p3">
+        <h3 id="p3">Structured</h3>
+        <p>Characters. Locations. Relationships. Lore. Maps. Timelines. Connected together for clarity and scale.</p>
+      </article>
+
+      <article class="card" aria-labelledby="p4">
+        <h3 id="p4">AI Ready</h3>
+        <p>Use your world with AI workspaces, games, websites, simulations, and future build targets while keeping control of canon.</p>
+      </article>
+    </section>
+
     <footer>
-      © 2026 LOXLEY Labs · .lxw powered · Local-first
+      <div style="font-weight:700">LOXLEY</div>
+      <div style="color:var(--muted);font-size:13px">Currently in active development</div>
+      <div style="color:var(--muted);font-size:13px">© Loxley Labs</div>
     </footer>
   </div>
-
-  <script>
-    const cards = document.querySelectorAll('.card');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-
-    let currentIndex = 0;
-    const totalCards = cards.length;
-
-    function updateCards() {
-      cards.forEach((card, index) => {
-        card.classList.remove('active', 'prev');
-        
-        if (index === currentIndex) {
-          card.classList.add('active');
-        } else if (index < currentIndex) {
-          card.classList.add('prev');
-        }
-      });
-
-      dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentIndex);
-      });
-
-      prevBtn.disabled = currentIndex === 0;
-      nextBtn.disabled = currentIndex === totalCards - 1;
-    }
-
-    function nextCard() {
-      if (currentIndex < totalCards - 1) {
-        currentIndex++;
-        updateCards();
-      }
-    }
-
-    function prevCard() {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateCards();
-      }
-    }
-
-    prevBtn.addEventListener('click', prevCard);
-    nextBtn.addEventListener('click', nextCard);
-
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        currentIndex = index;
-        updateCards();
-      });
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') nextCard();
-      if (e.key === 'ArrowLeft') prevCard();
-    });
-
-    // Touch/swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    document.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    document.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    });
-
-    function handleSwipe() {
-      const swipeThreshold = 50;
-      const diff = touchStartX - touchEndX;
-
-      if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-          nextCard();
-        } else {
-          prevCard();
-        }
-      }
-    }
-
-    // Initialize
-    updateCards();
-  </script>
 </body>
 </html>
