@@ -51,6 +51,8 @@
     header{
       height:72px; /* navigation height */
       display:flex;align-items:center;justify-content:space-between;
+      background: transparent; /* header transparent */
+      border-bottom: none;
     }
 
     .brand{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;font-weight:700;letter-spacing:0.12em}
@@ -69,13 +71,13 @@
       gap:40px; /* hero -> features spacing (40-64px target) */
     }
 
-    /* Hero panel: large rounded card with subtle gradient and gold edge */
+    /* Hero panel: removed backing card (transparent), keep layout */
     .hero{
-      background:linear-gradient(180deg,var(--panel),var(--panel-2));
-      border:1px solid rgba(212,175,55,0.12);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 40px rgba(212,175,55,0.03) inset;
-      border-radius:16px;
-      padding:48px; /* desktop: 40-56px */
+      background: transparent; /* removed panel background */
+      border: none; /* remove border */
+      box-shadow: none; /* remove shadow */
+      border-radius: 0; /* remove rounded card shape */
+      padding:48px; /* keep internal padding */
       display:grid;
       grid-template-columns: 1fr 520px; /* left copy, right visual */
       gap:64px; /* 48-72px */
