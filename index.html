@@ -32,14 +32,15 @@
       justify-content:center;
     }
 
+    /* Shell: shared page container */
     .container{
-      width:1200px;
-      max-width:96vw;
-      height:88vh; /* tuned to sit on a single desktop screen */
+      width: min(1220px, 96vw);
+      margin-inline: auto;
+      padding:48px;
       display:flex;
       flex-direction:column;
-      gap:36px;
-      padding:36px 48px;
+      gap:48px; /* header->hero and hero->features spacing */
+      min-height: calc(100vh - 48px);
     }
 
     /* Navigation */
@@ -48,6 +49,7 @@
       align-items:center;
       justify-content:space-between;
       height:72px;
+      padding-bottom:0;
     }
 
     .brand{
@@ -60,22 +62,26 @@
     nav a{color:var(--muted);text-decoration:none;font-size:13px;padding:8px 10px;border-radius:8px}
     nav a:hover{color:var(--gold);background:var(--glass)}
 
-    /* Hero */
+    /* Hero: use grid for reliable layout */
     .hero{
-      display:flex;gap:40px;align-items:center;justify-content:space-between;
-      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      padding:48px;
+      border-radius:14px;
+      background-color:var(--panel);
       border:1px solid rgba(255,255,255,0.03);
-      padding:36px;border-radius:16px;height: calc(50% - 20px);
       box-shadow: 0 14px 50px rgba(0,0,0,0.6);
-      background-color: var(--panel);
+
+      display:grid;
+      grid-template-columns: 1fr minmax(380px, 520px);
+      gap:64px; /* desktop: large gap between copy and visual */
+      align-items:center;
     }
 
-    .hero-left{flex:1;display:flex;flex-direction:column;gap:16px;padding-right:18px}
+    .hero-left{display:flex;flex-direction:column;gap:16px}
     .kicker{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em}
-    h1{font-size:48px;line-height:1.04;margin-bottom:6px;font-weight:800}
+    h1{font-size:48px;line-height:1.04;margin:0;font-weight:800}
     .sub{color:var(--muted);font-size:16px;max-width:58ch;line-height:1.6}
 
-    .hero-actions{display:flex;gap:16px;margin-top:10px}
+    .hero-actions{margin-top:28px;display:flex;gap:16px;flex-wrap:wrap}
     .btn{padding:14px 24px;border-radius:12px;font-weight:700;border:1px solid transparent;text-decoration:none;display:inline-flex;align-items:center;gap:10px}
     .btn-primary{background:var(--gold);color:#0d0f14}
     .btn-secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.06)}
@@ -83,11 +89,22 @@
 
     /* Visual / Infographic */
     .visual{
-      width:540px;flex:0 0 540px;display:flex;align-items:center;justify-content:center;position:relative;padding:32px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.03)
+      padding:28px 24px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:200px;
     }
 
     .infographic{
-      width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:8px
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:22px;
+      padding:8px 0 12px 0;
     }
 
     .node{
@@ -98,30 +115,46 @@
 
     .arrow{width:3px;height:40px;background:linear-gradient(180deg,var(--gold),var(--gold-soft));margin:6px 0;border-radius:2px}
 
-    .ecosystem-row{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:8px}
+    .ecosystem-row{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:18px}
     .small-pill{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:13px;color:var(--muted)}
+    .ecosystem-caption{margin-top:10px;color:var(--muted);font-size:13px;text-align:center}
 
-    /* Principles */
-    .principles{display:flex;gap:24px;justify-content:space-between;margin-top:8px}
-    .card{flex:1;background:var(--panel);padding:22px;border-radius:14px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 36px rgba(0,0,0,0.45)}
+    /* Principles: grid layout with explicit gap */
+    .principles{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:24px;
+      margin-top:0; /* container gap handles space above */
+    }
+    .card{background:var(--panel);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 36px rgba(0,0,0,0.45)}
     .card h3{font-size:17px;margin-bottom:10px}
     .card p{color:var(--muted);font-size:15px;line-height:1.6}
 
     /* Footer */
-    footer{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-radius:10px;background:transparent;color:var(--muted);font-size:13px}
+    footer{display:flex;align-items:center;justify-content:space-between;padding:20px;border-radius:10px;background:transparent;color:var(--muted);font-size:13px;margin-top:56px}
 
-    /* Fit on single screen adjustments */
+    /* Responsive breakpoints */
     @media (max-width:1200px){
-      .visual{flex:0 0 480px;width:480px}
-      h1{font-size:42px}
-      .container{padding:30px 36px}
+      .container{padding:36px;gap:40px}
+      .hero{grid-template-columns:1fr 420px;gap:48px;padding:40px}
+      .visual{min-height:220px}
     }
+
     @media (max-width:920px){
-      .container{height:auto;padding:20px 18px}
-      .hero{flex-direction:column;align-items:stretch;height:auto}
-      .visual{width:100%;flex:0 0 auto}
-      .principles{flex-direction:column}
-      .brand img{width:24px;height:24px}
+      .container{padding:28px;gap:28px}
+      .hero{grid-template-columns:1fr;gap:28px;padding:28px}
+      .hero-left{order:1}
+      .visual{order:2;width:100%;padding:20px}
+      .principles{grid-template-columns:repeat(2,1fr);gap:18px}
+      footer{flex-direction:column;gap:8px;align-items:flex-start}
+    }
+
+    @media (max-width:520px){
+      .container{padding:20px}
+      .principles{grid-template-columns:1fr}
+      .brand img{width:22px;height:22px}
+      h1{font-size:28px}
+      .sub{font-size:14px}
     }
 
   </style>
@@ -156,7 +189,7 @@
         <div class="infographic" role="img" aria-label=".lxw ecosystem infographic">
           <div class="node">
             <div class="title">LOXLEY Editor</div>
-            <div class="meta">Create & structure your world</div>
+            <div class="meta">Create &amp; structure your world</div>
           </div>
 
           <div class="arrow" aria-hidden="true"></div>
@@ -176,7 +209,7 @@
               <div class="small-pill">Games</div>
               <div class="small-pill">Future Tools</div>
             </div>
-            <div class="meta" style="color:var(--muted);font-size:13px">One file, many build targets — portable by design</div>
+            <div class="ecosystem-caption">One file, many build targets — portable by design</div>
           </div>
         </div>
       </div>
