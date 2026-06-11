@@ -1,172 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LOXLEY — One World. Many Surfaces. Always Yours.</title>
   <meta name="description" content="LOXLEY — a local-first platform for creating, managing and publishing structured worlds. Portable .lxw world packages keep your data connected and under your control.">
   <link rel="icon" type="image/png" sizes="32x32" href="loxley_icon.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="loxley_icon.png">
   <meta name="theme-color" content="#0D0F14">
   <style>
+    /* Brand palette */
     :root{
       --bg: #0D0F14;
-      --panel: #1A1E26;
+      --panel: #151A22;
+      --panel-2: #10151D;
+      --panel-hover: #1B2230;
       --gold: #D4AF37;
-      --gold-soft: #F2C76E;
+      --gold-2: #F2C76E;
       --text: #F8F3E6;
-      --muted: rgba(248,243,230,0.68);
-      --glass: rgba(255,255,255,0.03);
+      --muted: #A8AFBA;
+      --border-gold: rgba(212,175,55,0.15);
     }
 
-    *{box-sizing:border-box;margin:0;padding:0}
+    /* Reset */
+    *{box-sizing:border-box}
     html,body{height:100%;}
     body{
-      min-height:100vh;
+      margin:0;
       background:var(--bg);
       color:var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
       display:flex;
       align-items:stretch;
       justify-content:center;
+      min-height:100vh;
     }
 
-    /* Shell: shared page container */
-    .container{
-      width: min(1220px, 96vw);
-      margin-inline: auto;
-      padding:48px;
-      display:flex;
-      flex-direction:column;
-      gap:48px; /* header->hero and hero->features spacing */
-      min-height: calc(100vh - 48px);
-    }
-
-    /* Navigation */
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      height:72px;
-      padding-bottom:0;
-    }
-
-    .brand{
-      display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--text);
-      font-weight:700;letter-spacing:0.12em;font-size:16px
-    }
-    .brand img{width:30px;height:30px;border-radius:6px}
-
-    nav{display:flex;gap:20px;align-items:center}
-    nav a{color:var(--muted);text-decoration:none;font-size:13px;padding:8px 10px;border-radius:8px}
-    nav a:hover{color:var(--gold);background:var(--glass)}
-
-    /* Hero: use grid for reliable layout */
-    .hero{
-      padding:48px;
-      border-radius:14px;
-      background-color:var(--panel);
-      border:1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 14px 50px rgba(0,0,0,0.6);
-
-      display:grid;
-      grid-template-columns: 1fr minmax(380px, 520px);
-      gap:64px; /* desktop: large gap between copy and visual */
-      align-items:center;
-    }
-
-    .hero-left{display:flex;flex-direction:column;gap:16px}
-    .kicker{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em}
-    h1{font-size:48px;line-height:1.04;margin:0;font-weight:800}
-    .sub{color:var(--muted);font-size:16px;max-width:58ch;line-height:1.6}
-
-    .hero-actions{margin-top:28px;display:flex;gap:16px;flex-wrap:wrap}
-    .btn{padding:14px 24px;border-radius:12px;font-weight:700;border:1px solid transparent;text-decoration:none;display:inline-flex;align-items:center;gap:10px}
-    .btn-primary{background:var(--gold);color:#0d0f14}
-    .btn-secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.06)}
-    .btn-secondary:hover{border-color:var(--gold-soft);color:var(--gold-soft)}
-
-    /* Visual / Infographic */
-    .visual{
-      padding:28px 24px;
-      border-radius:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:200px;
-    }
-
-    .infographic{
+    /* Page shell sized to target width */
+    .page{
       width:100%;
+      max-width:1220px; /* shared page container 1180-1240 */
+      margin-inline:auto;
       display:flex;
       flex-direction:column;
+      min-height:100vh;
+      padding:28px 28px; /* small breathing from viewport edge */
+    }
+
+    header{
+      height:72px; /* navigation height */
+      display:flex;align-items:center;justify-content:space-between;
+    }
+
+    .brand{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;font-weight:700;letter-spacing:0.12em}
+    .brand img{width:34px;height:34px;border-radius:6px;display:block}
+    .brand span{font-size:15px}
+
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-size:13px;padding:8px;border-radius:8px}
+    nav a:hover{color:var(--gold);background:transparent}
+
+    /* Main content: hero + features + footer fit within 100vh */
+    .main{
+      flex:1 1 auto;
+      display:flex;
+      flex-direction:column;
+      gap:40px; /* hero -> features spacing (40-64px target) */
+    }
+
+    /* Hero panel: large rounded card with subtle gradient and gold edge */
+    .hero{
+      background:linear-gradient(180deg,var(--panel),var(--panel-2));
+      border:1px solid rgba(212,175,55,0.12);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 40px rgba(212,175,55,0.03) inset;
+      border-radius:16px;
+      padding:48px; /* desktop: 40-56px */
+      display:grid;
+      grid-template-columns: 1fr 520px; /* left copy, right visual */
+      gap:64px; /* 48-72px */
       align-items:center;
-      justify-content:center;
-      gap:22px;
-      padding:8px 0 12px 0;
     }
 
-    .node{
-      width:260px;background:var(--panel);border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 10px 36px rgba(0,0,0,0.45);text-align:center
+    /* Headline and copy */
+    .kicker{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em}
+    h1{font-family: 'Cinzel', serif; font-weight:800; font-size:48px; line-height:1.02; margin:0; text-transform:uppercase; letter-spacing:0.06em}
+    .sub{margin-top:8px;color:var(--muted);max-width:500px;font-size:15px;line-height:1.6}
+
+    /* CTAs */
+    .hero-actions{margin-top:24px;display:flex;gap:16px;align-items:center}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:12px;font-weight:700;text-decoration:none;font-size:14px}
+    .btn-primary{background:var(--gold);color:#0D0F14;border:1px solid rgba(0,0,0,0.15)}
+    .btn-primary:hover{box-shadow:0 6px 20px rgba(212,175,55,0.12)}
+    .btn-secondary{background:rgba(255,255,255,0.02);border:1px solid rgba(212,175,55,0.12);color:var(--text)}
+    .btn-secondary:hover{box-shadow:0 6px 20px rgba(212,175,55,0.06)}
+
+    /* Visual area (right) - uses card stack style */
+    .visual{display:flex;flex-direction:column;align-items:center;gap:18px;padding:12px}
+
+    .stack{
+      display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:420px;
     }
-    .node .title{font-weight:700;color:var(--text);font-size:15px;margin-bottom:8px}
-    .node .meta{font-size:13px;color:var(--muted)}
 
-    .arrow{width:3px;height:40px;background:linear-gradient(180deg,var(--gold),var(--gold-soft));margin:6px 0;border-radius:2px}
+    .card-visual{
+      width:100%;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:12px;padding:14px 16px;border-left:4px solid var(--gold);
+      display:flex;flex-direction:column;gap:8px;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,0.6);
+      transition:transform 180ms ease, box-shadow 180ms ease;
+    }
+    .card-visual.feature{border-left:4px solid rgba(255,255,255,0.03);}
+    .card-visual .title{font-weight:700;color:var(--text);font-size:15px}
+    .card-visual .meta{font-size:13px;color:var(--muted);text-align:center}
 
-    .ecosystem-row{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:18px}
-    .small-pill{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:13px;color:var(--muted)}
-    .ecosystem-caption{margin-top:10px;color:var(--muted);font-size:13px;text-align:center}
+    .lxw-dominant{border-left-color:var(--gold);transform:translateY(0)}
+    .stack .card-visual:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,0.6)}
 
-    /* Principles: grid layout with explicit gap */
+    .ecosystem-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+    .pill{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:13px;color:var(--muted)}
+    .ecosystem-caption{font-size:13px;color:var(--muted);margin-top:6px;text-align:center}
+
+    /* Principles row: four equal cards */
     .principles{
       display:grid;
-      grid-template-columns:repeat(4, minmax(0, 1fr));
-      gap:24px;
-      margin-top:0; /* container gap handles space above */
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:24px; /* consistent gap */
+      align-items:stretch;
     }
-    .card{background:var(--panel);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 36px rgba(0,0,0,0.45)}
-    .card h3{font-size:17px;margin-bottom:10px}
-    .card p{color:var(--muted);font-size:15px;line-height:1.6}
+
+    .principle-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      border-radius:12px;padding:20px;border:1px solid rgba(212,175,55,0.08);
+      display:flex;flex-direction:column;gap:12px;align-items:flex-start;box-shadow:0 8px 30px rgba(0,0,0,0.5);
+      transition:transform 180ms ease, box-shadow 180ms ease;
+    }
+    .principle-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,0.6)}
+    .principle-icon{width:44px;height:44px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);color:var(--gold)}
+    .principle-card h3{margin:0;font-size:16px}
+    .principle-card p{margin:0;color:var(--muted);font-size:14px}
 
     /* Footer */
-    footer{display:flex;align-items:center;justify-content:space-between;padding:20px;border-radius:10px;background:transparent;color:var(--muted);font-size:13px;margin-top:56px}
+    footer{height:56px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:13px;margin-top:auto}
 
-    /* Responsive breakpoints */
+    /* Responsive rules */
     @media (max-width:1200px){
-      .container{padding:36px;gap:40px}
-      .hero{grid-template-columns:1fr 420px;gap:48px;padding:40px}
-      .visual{min-height:220px}
+      .hero{grid-template-columns:1fr 420px;padding:40px;gap:56px}
+      h1{font-size:44px}
     }
-
     @media (max-width:920px){
-      .container{padding:28px;gap:28px}
-      .hero{grid-template-columns:1fr;gap:28px;padding:28px}
-      .hero-left{order:1}
-      .visual{order:2;width:100%;padding:20px}
-      .principles{grid-template-columns:repeat(2,1fr);gap:18px}
-      footer{flex-direction:column;gap:8px;align-items:flex-start}
+      .page{padding:20px}
+      .hero{grid-template-columns:1fr;padding:32px;gap:28px}
+      .principles{grid-template-columns:repeat(2,1fr)}
+      h1{font-size:34px}
     }
-
     @media (max-width:520px){
-      .container{padding:20px}
       .principles{grid-template-columns:1fr}
-      .brand img{width:22px;height:22px}
-      h1{font-size:28px}
-      .sub{font-size:14px}
+      h1{font-size:26px}
+      .hero{padding:20px}
     }
 
+    /* Ensure no overflow/scroll on desktop typical viewport */
+    @media (min-width:1220px) and (min-height:820px){
+      /* no-op; desktop large enough */
+    }
   </style>
 </head>
 <body>
-  <div class="container" role="document">
+  <div class="page">
     <header>
-      <a class="brand" href="/" aria-label="LOXLEY Home">
-        <img src="loxley_icon.png" alt="LOXLEY logo">
+      <a class="brand" href="#" aria-label="LOXLEY Home">
+        <img src="loxley_icon.png" alt="LOXLEY logo" />
         <span>LOXLEY</span>
       </a>
-      <nav aria-label="Primary">
+
+      <nav aria-label="Primary navigation">
         <a href="#docs">Docs</a>
         <a href="#roadmap">Roadmap</a>
         <a href="https://github.com/OAKHARDT/Loxley_Landing" target="_blank" rel="noopener">GitHub</a>
@@ -174,74 +180,78 @@
       </nav>
     </header>
 
-    <section class="hero" aria-labelledby="hero-heading">
-      <div class="hero-left">
-        <div class="kicker">Currently in active development</div>
-        <h1 id="hero-heading">One World. Many Surfaces. Always Yours.</h1>
-        <div class="sub">LOXLEY is a local-first platform for creating, managing and publishing structured worlds. The .lxw world package keeps your data portable, connected and under your control.</div>
-        <div class="hero-actions">
-          <a href="#learn" class="btn btn-primary">Learn More</a>
-          <a href="#join" class="btn btn-secondary">Join Development</a>
+    <main class="main" role="main">
+      <section class="hero" aria-labelledby="hero-heading">
+        <div class="hero-left">
+          <div class="kicker">Currently in active development</div>
+          <h1 id="hero-heading">ONE WORLD.<br/>MANY SURFACES.<br/>ALWAYS YOURS.</h1>
+
+          <div class="sub">LOXLEY is a local-first platform for creating, managing and publishing structured worlds. Powered by the portable .lxw world package.</div>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#learn">Learn More</a>
+            <a class="btn btn-secondary" href="#join">Join Development</a>
+          </div>
         </div>
-      </div>
 
-      <div class="visual" aria-hidden="false">
-        <div class="infographic" role="img" aria-label=".lxw ecosystem infographic">
-          <div class="node">
-            <div class="title">LOXLEY Editor</div>
-            <div class="meta">Create &amp; structure your world</div>
-          </div>
-
-          <div class="arrow" aria-hidden="true"></div>
-
-          <div class="node">
-            <div class="title">.lxw</div>
-            <div class="meta">A single portable world package</div>
-          </div>
-
-          <div class="arrow" aria-hidden="true"></div>
-
-          <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
-            <div class="ecosystem-row">
-              <div class="small-pill">Reader</div>
-              <div class="small-pill">Website</div>
-              <div class="small-pill">AI Workspace</div>
-              <div class="small-pill">Games</div>
-              <div class="small-pill">Future Tools</div>
+        <div class="visual" aria-hidden="false">
+          <div class="stack" role="img" aria-label=".lxw ecosystem">
+            <div class="card-visual" aria-hidden="false">
+              <div class="title">LOXLEY Editor</div>
+              <div class="meta">Create &amp; structure your world</div>
             </div>
-            <div class="ecosystem-caption">One file, many build targets — portable by design</div>
+
+            <div class="card-visual lxw-dominant" aria-hidden="false">
+              <div class="title">.lxw</div>
+              <div class="meta">A single portable world package</div>
+            </div>
+
+            <div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:10px">
+              <div class="ecosystem-row" aria-hidden="false">
+                <div class="pill">Reader</div>
+                <div class="pill">Website</div>
+                <div class="pill">AI Workspace</div>
+                <div class="pill">Game Runtime</div>
+                <div class="pill">Future Tools</div>
+              </div>
+              <div class="ecosystem-caption">One file, many build targets — portable by design</div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="principles" aria-label="Core Principles">
-      <article class="card" aria-labelledby="p1">
-        <h3 id="p1">Local-First</h3>
-        <p>Your data lives on your devices. No required cloud. No subscriptions. No lock-in.</p>
-      </article>
+      <section class="principles" aria-label="Core principles">
+        <article class="principle-card" aria-labelledby="p1">
+          <div class="principle-icon" aria-hidden="true">🔒</div>
+          <h3 id="p1">Local-First</h3>
+          <p>Your world stays under your control. No required cloud. No subscriptions. No lock-in.</p>
+        </article>
 
-      <article class="card" aria-labelledby="p2">
-        <h3 id="p2">Portable</h3>
-        <p>One .lxw file — use it across Android, Desktop, Reader, Websites, and future tools.</p>
-      </article>
+        <article class="principle-card" aria-labelledby="p2">
+          <div class="principle-icon" aria-hidden="true">📁</div>
+          <h3 id="p2">Portable</h3>
+          <p>One .lxw file. Open it across Android, Desktop, Reader, Websites, and future tools.</p>
+        </article>
 
-      <article class="card" aria-labelledby="p3">
-        <h3 id="p3">Structured</h3>
-        <p>Characters. Locations. Relationships. Lore. Maps. Timelines. Connected together for clarity and scale.</p>
-      </article>
+        <article class="principle-card" aria-labelledby="p3">
+          <div class="principle-icon" aria-hidden="true">🌳</div>
+          <h3 id="p3">Structured</h3>
+          <p>Characters. Locations. Relationships. Maps. Lore. Timelines. Connected together.</p>
+        </article>
 
-      <article class="card" aria-labelledby="p4">
-        <h3 id="p4">AI Ready</h3>
-        <p>Use your world with AI workspaces, games, websites, simulations, and future build targets while keeping control of canon.</p>
-      </article>
-    </section>
+        <article class="principle-card" aria-labelledby="p4">
+          <div class="principle-icon" aria-hidden="true">🧠</div>
+          <h3 id="p4">AI Ready</h3>
+          <p>Use your world with AI workspaces, simulations, websites, games, and future build targets.</p>
+        </article>
+      </section>
 
-    <footer>
-      <div style="font-weight:700">LOXLEY</div>
-      <div style="color:var(--muted);font-size:13px">Currently in active development</div>
-      <div style="color:var(--muted);font-size:13px">© Loxley Labs</div>
-    </footer>
+      <footer>
+        <div style="font-weight:700">LOXLEY</div>
+        <div>Currently in Active Development</div>
+        <div>© Loxley Labs</div>
+      </footer>
+    </main>
   </div>
 </body>
 </html>
