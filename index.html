@@ -4,21 +4,31 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LOXLEY — One World. Many Surfaces. Always Yours.</title>
-  <meta name="description" content="LOXLEY — a local-first platform for creating, managing and publishing structured worlds. Portable .lxw world packages keep your data connected and under your control.">
+  <meta name="description" content="LOXLEY — a local-first platform for creating, managing and publishing structured worlds. Portable .lxw world packages keep your data connected and under your control." />
   <link rel="icon" type="image/png" sizes="32x32" href="loxley_icon.png">
-  <meta name="theme-color" content="#0D0F14">
+  <meta name="theme-color" content="#08090B">
   <style>
-    /* Brand palette */
+    /* Brand palette (updated to LOXLEY Colour & Style Reference) */
     :root{
-      --bg: #0D0F14;
-      --panel: #151A22;
-      --panel-2: #10151D;
-      --panel-hover: #1B2230;
-      --gold: #D4AF37;
-      --gold-2: #F2C76E;
-      --text: #F8F3E6;
-      --muted: #A8AFBA;
-      --border-gold: rgba(212,175,55,0.15);
+      --bg: #08090B; /* Obsidian Black */
+      --bg-deep: #0B0D10; /* Deep Obsidian */
+      --panel: #11141A; /* Panel Slate */
+      --raised: #151922; /* Raised Slate */
+      --strong-slate: #1A1F28; /* Strong Slate */
+
+      --ivory: #F1F2F0; /* main headings / important text */
+      --text: var(--ivory);
+      --soft-silver: #C8CCD2; /* body text */
+      --muted: #8D95A3; /* metadata / captions */
+      --dim: #5F6875; /* low-priority details */
+
+      --ancient-gold: #A89155; /* primary accent */
+      --warm-gold: #BCA264; /* secondary accent */
+      --gold-wash: rgba(168,145,85,.065); /* very subtle gold background tint */
+
+      --border-main: #262B34;
+      --border-soft: rgba(255,255,255,.07);
+      --border-faint: rgba(255,255,255,.045);
     }
 
     /* Reset */
@@ -37,65 +47,65 @@
       min-height:100vh;
     }
 
-    /* Page shell sized to target width -- reduced padding to fit single screen */
+    /* Page shell sized to target width */
     .page{
       width:100%;
-      max-width:1220px; /* shared page container 1180-1240 */
+      max-width:1220px;
       margin-inline:auto;
       display:flex;
       flex-direction:column;
       min-height:100vh;
-      padding:16px 16px; /* reduced breathing from viewport edge */
+      padding:16px 16px;
     }
 
     header{
-      height:60px; /* reduced navigation height */
+      height:60px;
       display:flex;align-items:center;justify-content:space-between;
-      background: transparent; /* header transparent */
+      background: transparent;
       border-bottom: none;
     }
 
-    .brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:700;letter-spacing:0.12em}
-    .brand img{width:30px;height:30px;border-radius:6px;display:block}
+    .brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:700;letter-spacing:0.08em}
+    .brand img{width:30px;height:30px;border-radius:6px;display:block;background:linear-gradient(180deg,var(--panel),var(--raised));padding:2px}
     .brand span{font-size:14px}
 
     nav{display:flex;gap:14px;align-items:center}
-    nav a{color:var(--muted);text-decoration:none;font-size:13px;padding:6px;border-radius:8px}
-    nav a:hover{color:var(--gold);background:transparent}
+    nav a{color:var(--soft-silver);text-decoration:none;font-size:13px;padding:6px;border-radius:8px}
+    nav a:hover{color:var(--ancient-gold);background:transparent}
 
     /* Main content: hero + features + footer fit within 100vh */
     .main{
       flex:1 1 auto;
       display:flex;
       flex-direction:column;
-      gap:28px; /* reduced hero -> features spacing */
+      gap:28px;
     }
 
-    /* Hero panel: removed backing card (transparent), keep layout with reduced padding */
+    /* Hero panel */
     .hero{
-      background: transparent; /* removed panel background */
-      border: none; /* remove border */
-      box-shadow: none; /* remove shadow */
-      border-radius: 0; /* remove rounded card shape */
-      padding:32px; /* reduced internal padding */
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      border-radius: 0;
+      padding:32px;
       display:grid;
-      grid-template-columns: 1fr 400px; /* slightly narrower visual */
-      gap:48px; /* reduced gap between copy and visual */
+      grid-template-columns: 1fr 400px;
+      gap:48px;
       align-items:center;
     }
 
     /* Headline and copy */
     .kicker{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em}
-    h1{font-family: 'Cinzel', serif; font-weight:800; font-size:40px; line-height:1.02; margin:0; text-transform:uppercase; letter-spacing:0.06em}
-    .sub{margin-top:6px;color:var(--muted);max-width:500px;font-size:14px;line-height:1.5}
+    h1{font-family: Georgia, 'Times New Roman', serif; font-weight:700; font-size:40px; line-height:1.02; margin:0; text-transform:uppercase; letter-spacing:0.06em; color:var(--ivory)}
+    .sub{margin-top:6px;color:var(--soft-silver);max-width:500px;font-size:14px;line-height:1.5}
 
     /* CTAs */
     .hero-actions{margin-top:16px;display:flex;gap:12px;align-items:center}
     .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;font-weight:700;text-decoration:none;font-size:13px}
-    .btn-primary{background:var(--gold);color:#0D0F14;border:1px solid rgba(0,0,0,0.12)}
-    .btn-primary:hover{box-shadow:0 6px 20px rgba(212,175,55,0.12)}
-    .btn-secondary{background:rgba(255,255,255,0.02);border:1px solid rgba(212,175,55,0.12);color:var(--text)}
-    .btn-secondary:hover{box-shadow:0 6px 20px rgba(212,175,55,0.06)}
+    .btn-primary{background:var(--ancient-gold);color:#0B0D10;border:1px solid rgba(0,0,0,0.12)}
+    .btn-primary:hover{box-shadow:0 6px 20px rgba(168,145,85,0.12)}
+    .btn-secondary{background:rgba(255,255,255,0.02);border:1px solid rgba(168,145,85,0.08);color:var(--text)}
+    .btn-secondary:hover{box-shadow:0 6px 20px rgba(168,145,85,0.06)}
 
     /* Visual area (right) - compact card stack */
     .visual{display:flex;flex-direction:column;align-items:center;gap:12px;padding:8px}
@@ -106,44 +116,44 @@
 
     .card-visual{
       width:100%;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-      border-radius:10px;padding:10px 12px;border-left:4px solid var(--gold);
+      border-radius:10px;padding:10px 12px;border-left:4px solid var(--ancient-gold);
       display:flex;flex-direction:column;gap:6px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,0.55);
       transition:transform 160ms ease, box-shadow 160ms ease;
     }
     .card-visual.feature{border-left:4px solid rgba(255,255,255,0.03);}
-    .card-visual .title{font-weight:700;color:var(--text);font-size:14px}
+    .card-visual .title{font-weight:700;color:var(--ivory);font-size:14px}
     .card-visual .meta{font-size:12px;color:var(--muted);text-align:center}
 
-    .lxw-dominant{border-left-color:var(--gold);transform:translateY(0)}
+    .lxw-dominant{border-left-color:var(--ancient-gold);transform:translateY(0)}
     .stack .card-visual:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,0.55)}
 
     .ecosystem-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-    .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:12px;color:var(--muted)}
+    .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid var(--border-faint);font-size:12px;color:var(--muted)}
     .ecosystem-caption{font-size:12px;color:var(--muted);margin-top:6px;text-align:center}
 
-    /* Principles row: four equal cards with reduced spacing */
+    /* Principles row */
     .principles{
       display:grid;
       grid-template-columns:repeat(4, minmax(0,1fr));
-      gap:16px; /* reduced gap */
+      gap:16px;
       align-items:stretch;
     }
 
     .principle-card{
       background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
-      border-radius:10px;padding:14px;border:1px solid rgba(212,175,55,0.08);
+      border-radius:10px;padding:14px;border:1px solid rgba(168,145,85,0.06);
       display:flex;flex-direction:column;gap:10px;align-items:flex-start;box-shadow:0 6px 20px rgba(0,0,0,0.45);
       transition:transform 160ms ease, box-shadow 160ms ease;
     }
     .principle-card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,0.55)}
-    .principle-icon{width:40px;height:40px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);color:var(--gold)}
-    .principle-card h3{margin:0;font-size:15px}
-    .principle-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
+    .principle-icon{width:40px;height:40px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);border:1px solid var(--border-faint);font-size:18px}
+    .principle-card h3{margin:0;font-size:15px;color:var(--ivory)}
+    .principle-card p{margin:0;color:var(--soft-silver);font-size:13px;line-height:1.4}
 
     /* Footer */
     footer{height:48px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;margin-top:auto}
 
-    /* Responsive rules (tightened) */
+    /* Responsive rules */
     @media (max-width:1200px){
       .hero{grid-template-columns:1fr 360px;padding:28px;gap:36px}
       h1{font-size:36px}
@@ -160,10 +170,9 @@
       .hero{padding:12px}
     }
 
-    /* Ensure no overflow/scroll on desktop typical viewport */
-    @media (min-width:1220px) and (min-height:800px){
-      /* desktop large enough */
-    }
+    /* Gentle gold wash utility */
+    .gold-wash{background:var(--gold-wash);border-radius:8px;padding:6px}
+
   </style>
 </head>
 <body>
